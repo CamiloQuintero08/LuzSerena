@@ -13,7 +13,6 @@ body::before {
   mix-blend-mode: multiply;
 }
 
-/* Botones — hover no funciona con style={} en Server Components */
 .btn-terra {
   display: inline-block;
   background: #9b4c2e;
@@ -46,7 +45,6 @@ body::before {
   border-color: rgba(168, 120, 48, 0.3);
 }
 
-/* Divisor con líneas en pseudo-elementos ::before y ::after */
 .divider-ornament {
   display: flex;
   align-items: center;

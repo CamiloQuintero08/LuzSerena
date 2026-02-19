@@ -20,18 +20,18 @@ interface Product {
 
 /* ── Datos ──────────────────────────────────────────────────── */
 const products: Product[] = [
-  { id: 1,  name: "Lámpara Mimbre Redonda",    category: "Mimbre",   img: "/images/lamp1.jpg", price: 70000, tag: "Nuevo",      desc: "Tejido artesanal sobre estructura de hierro forjado." },
-  { id: 2,  name: "Lámpara de Madera Trípode", category: "Madera",   img: "/images/lamp2.jpg", price: 64000,                    desc: "Torno en madera maciza con acabado natural." },
-  { id: 3,  name: "Lámpara de Macramé",        category: "Macramé",  img: "/images/lamp3.jpg", price: 58000, tag: "Más vendido", desc: "Tejido en algodón crudo, nudo a nudo." },
-  { id: 4,  name: "Lámpara Cerámica Esmaltada",category: "Cerámica", img: "/images/lamp4.jpg", price: 80000,                    desc: "Cerámica esmaltada a mano, cada pieza irrepetible." },
-  { id: 5,  name: "Lámpara Mosaico Turca",     category: "Mosaico",  img: "/images/lamp1.jpg", price: 95000, tag: "Premium",    desc: "Vidrio artesanal en colores mediterráneos vibrantes." },
-  { id: 6,  name: "Lámpara Mimbre Colgante",   category: "Mimbre",   img: "/images/lamp2.jpg", price: 67000,                    desc: "Mimbre natural trenzado, ideal para comedores." },
-  { id: 7,  name: "Lámpara Cerámica Rústica",  category: "Cerámica", img: "/images/lamp3.jpg", price: 74000,                    desc: "Acabado rústico esmaltado en tonos tierra." },
-  { id: 8,  name: "Lámpara Madera Flotante",   category: "Madera",   img: "/images/lamp4.jpg", price: 88000, tag: "Nuevo",      desc: "Diseño suspendido en madera de nogal lacada." },
-  { id: 9,  name: "Lámpara Macramé Grande",    category: "Macramé",  img: "/images/lamp1.jpg", price: 72000,                    desc: "Formato XL para espacios amplios y techos altos." },
-  { id: 10, name: "Lámpara Mosaico Oval",      category: "Mosaico",  img: "/images/lamp2.jpg", price: 89000,                    desc: "Forma oval única con vidrios de colores cálidos." },
-  { id: 11, name: "Lámpara Mimbre Plana",      category: "Mimbre",   img: "/images/lamp3.jpg", price: 61000,                    desc: "Diseño plano y moderno en mimbre natural." },
-  { id: 12, name: "Lámpara Cerámica Blanca",   category: "Cerámica", img: "/images/lamp4.jpg", price: 69000,                    desc: "Porcelana blanca mate con relieves florales." },
+  { id: 1,  name: "Lámpara Mimbre Redonda",    category: "Mimbre",   img: "/images/Lamparas/Lampara01.jpg", price: 70000, tag: "Nuevo",      desc: "Tejido artesanal sobre estructura de hierro forjado." },
+  { id: 2,  name: "Lámpara de Madera Trípode", category: "Madera",   img: "/images/Lamparas/Lampara02.jpg", price: 64000,                    desc: "Torno en madera maciza con acabado natural." },
+  { id: 3,  name: "Lámpara de Macramé",        category: "Macramé",  img: "/images/Lamparas/Lampara03.jpg", price: 58000, tag: "Más vendido", desc: "Tejido en algodón crudo, nudo a nudo." },
+  { id: 4,  name: "Lámpara Cerámica Esmaltada",category: "Cerámica", img: "/images/Lamparas/Lampara01.jpg", price: 80000,                    desc: "Cerámica esmaltada a mano, cada pieza irrepetible." },
+  { id: 5,  name: "Lámpara Mosaico Turca",     category: "Mosaico",  img: "/images/Lamparas/Lampara01.jpg", price: 95000, tag: "Premium",    desc: "Vidrio artesanal en colores mediterráneos vibrantes." },
+  { id: 6,  name: "Lámpara Mimbre Colgante",   category: "Mimbre",   img: "/images/Lamparas/Lampara02.jpg", price: 67000,                    desc: "Mimbre natural trenzado, ideal para comedores." },
+  { id: 7,  name: "Lámpara Cerámica Rústica",  category: "Cerámica", img: "/images/Lamparas/Lampara03.jpg", price: 71000,                    desc: "Acabado rústico esmaltado en tonos tierra." },
+  { id: 8,  name: "Lámpara Madera Flotante",   category: "Madera",   img: "/images/Lamparas/Lampara01.jpg", price: 88000, tag: "Nuevo",      desc: "Diseño suspendido en madera de nogal lacada." },
+  { id: 9,  name: "Lámpara Macramé Grande",    category: "Macramé",  img: "/images/Lamparas/Lampara01.jpg", price: 72000,                    desc: "Formato XL para espacios amplios y techos altos." },
+  { id: 10, name: "Lámpara Mosaico Oval",      category: "Mosaico",  img: "/images/Lamparas/Lampara02.jpg", price: 89000,                    desc: "Forma oval única con vidrios de colores cálidos." },
+  { id: 11, name: "Lámpara Mimbre Plana",      category: "Mimbre",   img: "/images/Lamparas/Lampara03.jpg", price: 61000,                    desc: "Diseño plano y moderno en mimbre natural." },
+  { id: 12, name: "Lámpara Cerámica Blanca",   category: "Cerámica", img: "/images/Lamparas/Lampara01.jpg", price: 69000,                    desc: "Porcelana blanca mate con relieves florales." },
 ];
 
 const categories: Category[] = ["Todos", "Mimbre", "Cerámica", "Madera", "Macramé", "Mosaico"];
@@ -85,7 +85,6 @@ export default function Tienda() {
 
       <section className="relative h-[55vh] min-h-[380px] flex items-center justify-center overflow-hidden">
 
-        {/* Imagen de fondo */}
         <Image
           src="/images/backgroundProducts.png"
           alt="Colección de lámparas artesanales"
@@ -125,9 +124,8 @@ export default function Tienda() {
             <span style={{ color: "#d4a558" }}>✦</span>
           </div>
           <p
-            className="text-[0.88rem] tracking-wide max-w-md mx-auto"
+            className="text-[0.88rem] text-amber-950 tracking-wide max-w-md mx-auto"
             style={{
-              color: "rgba(253,246,236,0.75)",
               fontFamily: "'Jost', sans-serif",
               fontWeight: 300,
             }}
@@ -250,7 +248,6 @@ export default function Tienda() {
                     </svg>
                   </button>
 
-                  {/* Overlay ver detalle */}
                   <div
                     className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4"
                     style={{ background: "linear-gradient(0deg, rgba(42,26,14,0.55) 0%, transparent 55%)" }}
