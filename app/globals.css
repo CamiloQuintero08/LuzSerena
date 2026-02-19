@@ -1,26 +1,63 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.3;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.3'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 300px 300px;
+  mix-blend-mode: multiply;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Botones — hover no funciona con style={} en Server Components */
+.btn-terra {
+  display: inline-block;
+  background: #9b4c2e;
+  color: #fff8f0;
+  transition: background 0.3s, transform 0.2s;
+}
+.btn-terra:hover {
+  background: #6b3e28;
+  transform: translateY(-2px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.btn-outline-warm {
+  display: inline-block;
+  border: 1px solid rgba(107, 62, 40, 0.15);
+  color: #5a3820;
+  transition: all 0.3s;
+}
+.btn-outline-warm:hover {
+  border-color: #9b4c2e;
+  color: #9b4c2e;
+  background: rgba(155, 76, 46, 0.05);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.card-hover {
+  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+}
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px rgba(74, 46, 30, 0.13);
+  border-color: rgba(168, 120, 48, 0.3);
+}
+
+/* Divisor con líneas en pseudo-elementos ::before y ::after */
+.divider-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.divider-ornament::before,
+.divider-ornament::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #a87830, transparent);
 }
