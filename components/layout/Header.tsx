@@ -5,8 +5,9 @@ import Image from "next/image";
 
 const navItems = [
   { label: "Inicio",         href: "/" },
-  { label: "Productos",      href: "/productos" },
+  { label: "Productos",      href: "/tienda" },
   { label: "Sobre Nosotros", href: "/nosotros" },
+  {label: "Contacto",        href: "/contacto"}
 ];
 
 export default function Header() {

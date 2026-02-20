@@ -2,14 +2,6 @@ import Image from "next/image";
 import CustomHeader from "../components/layout/Header";
 import CustomFooter from "@/components/layout/Footer";
 
-/* ── Datos ──────────────────────────────────────────────────── */
-const products = [
-  { img: "/images/Lamparas/Lampara01.jpg", name: "Lámpara de Mosaico",  desc: "Vidrio artesanal en colores mediterráneos.", price: "$ 70.000" },
-  { img: "/images/Lamparas/Lampara02.jpg", name: "Lámpara de Madera",   desc: "Torno en madera maciza con acabado natural.", price: "$ 64.000" },
-  { img: "/images/Lamparas/Lampara03.jpg", name: "Lámpara de Macramé",  desc: "Tejido en algodón crudo, nudo a nudo.", price: "$ 58.000" },
-  { img: "/images/Lamparas/Lampara01.jpg", name: "Lámpara de Cerámica", desc: "Cerámica esmaltada, pieza irrepetible.", price: "$ 80.000" },
-];
-
 const features = [
   {
     title: "Hechas a Mano",
@@ -40,24 +32,6 @@ const features = [
   },
 ];
 
-const testimonials = [
-  { name: "María G.",  avatar: "/images/avatar1.jpg", text: "Hermosas lámparas, se nota el amor y dedicación en cada detalle. ¡La mejor compra que he hecho para mi hogar!" },
-  { name: "Carlos R.", avatar: "/images/avatar2.jpg", text: "Compré una lámpara de madera y quedó perfecta en mi sala. La calidad supera todas mis expectativas." },
-  { name: "Laura T.",  avatar: "/images/avatar3.jpg", text: "La lámpara de mosaico es impresionante. ¡Me encanta! Recibo cumplidos de todos mis invitados." },
-];
-
-function Stars() {
-  return (
-    <div className="flex gap-0.5 mb-3">
-      {[...Array(5)].map((_, i) => (
-        <svg key={i} className="w-3.5 h-3.5 text-[#a87830]" viewBox="0 0 20 20" fill="currentColor">
-          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-        </svg>
-      ))}
-    </div>
-  );
-}
-
 export default function Home() {
   return (
     <div
@@ -73,6 +47,7 @@ export default function Home() {
     >
       <CustomHeader />
 
+      {/* ══ HERO ════════════════════════════════════════════════ */}
       <section className="relative w-full h-[92vh] min-h-[580px] flex items-center justify-center overflow-hidden">
         <Image
           src="/images/backgroundV4.png"
@@ -112,8 +87,6 @@ export default function Home() {
           >
             Diseños únicos hechos a mano
           </p>
-
-  
           <a
             href="/tienda"
             className="btn-terra px-10 py-3.5 text-[0.72rem] tracking-[0.22em] uppercase font-medium"
@@ -122,7 +95,6 @@ export default function Home() {
             Ver Colección
           </a>
         </div>
-
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce text-[rgba(212,165,88,0.7)]">
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -130,6 +102,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ══ FEATURES BAR ════════════════════════════════════════ */}
       <section
         className="border-y"
         style={{ background: "#e4d9cc", borderColor: "rgba(107,62,40,0.15)" }}
@@ -158,72 +131,320 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ══ GALERÍA EDITORIAL ═══════════════════════════════════ */}
       <section className="py-24 px-6" style={{ background: "#f5efe6" }}>
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-14">
+
+          {/* Encabezado */}
+          <div className="text-center mb-16">
             <p
               className="text-[0.65rem] tracking-[0.3em] uppercase mb-3 text-[#a87830]"
               style={{ fontFamily: "'Jost', sans-serif" }}
             >
-              Lo que nos define
+              Nuestras creaciones
             </p>
             <h2
               className="font-light text-[clamp(1.8rem,4vw,3rem)] mb-4 text-[#2a1a0e]"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
-              Nuestras Lámparas Destacadas
+              Colección Destacada
             </h2>
             <div className="divider-ornament mb-4">
               <span className="text-[#a87830]">✦</span>
             </div>
             <p className="text-[0.85rem] tracking-wide text-[#8a6850]">
-              Descubre nuestras creaciones únicas
+              Haz clic en cualquier pieza para ver todos los detalles
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.map((p) => (
+          {/* ── Layout editorial asimétrico ── */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+            {/* Pieza grande — izquierda */}
+            <a
+              href="/tienda/1"
+              className="lg:col-span-7 group relative overflow-hidden block"
+              style={{ minHeight: "520px" }}
+            >
+              <Image
+                src="/images/Lamparas/Lampara01.jpg"
+                alt="Lámpara de Mosaico"
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              {/* Overlay siempre visible abajo */}
               <div
-                key={p.name}
-                className="card-hover group overflow-hidden cursor-pointer border"
-                style={{ background: "#faf6f1", borderColor: "rgba(107,62,40,0.15)" }}
+                className="absolute inset-0 transition-opacity duration-300"
+                style={{
+                  background: "linear-gradient(0deg, rgba(42,26,14,0.82) 0%, rgba(42,26,14,0.2) 45%, transparent 70%)",
+                }}
+              />
+              {/* Tag categoría */}
+              <span
+                className="absolute top-5 left-5 text-[0.58rem] tracking-[0.18em] uppercase px-3 py-1.5"
+                style={{ background: "rgba(42,26,14,0.6)", color: "#d4a558", fontFamily: "'Jost', sans-serif", backdropFilter: "blur(4px)" }}
               >
-                <div className="relative h-60 overflow-hidden">
-                  <Image
-                    src={p.img} alt={p.name} fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4"
-                    style={{ background: "linear-gradient(0deg, rgba(42,26,14,0.6) 0%, transparent 60%)" }}
-                  >
-                    <span
-                      className="text-[0.6rem] tracking-[0.2em] uppercase py-1.5 px-3 border"
-                      style={{ color: "#fdf6ec", borderColor: "rgba(253,246,236,0.4)", fontFamily: "'Jost', sans-serif" }}
-                    >
-                      Ver más
-                    </span>
-                  </div>
-                </div>
-                <div className="p-5 text-center">
-                  <h3
-                    className="font-light text-[1.1rem] mb-1 text-[#2a1a0e]"
-                    style={{ fontFamily: "'Cormorant Garamond', serif" }}
-                  >
-                    {p.name}
-                  </h3>
-                  <p className="text-[0.76rem] leading-6 mb-3 text-[#8a6850]">{p.desc}</p>
+                Mosaico
+              </span>
+              {/* Info abajo */}
+              <div className="absolute bottom-0 left-0 right-0 p-7">
+                <h3
+                  className="font-light text-[1.8rem] leading-tight mb-1 text-[#fdf6ec]"
+                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                >
+                  Lámpara de Mosaico
+                </h3>
+                <p className="text-[0.78rem] leading-6 mb-4" style={{ color: "rgba(253,246,236,0.65)", fontFamily: "'Jost', sans-serif" }}>
+                  Vidrio artesanal en colores mediterráneos. Luz cálida y envolvente.
+                </p>
+                <div className="flex items-center justify-between">
                   <span
-                    className="text-[0.95rem] tracking-wide text-[#9b4c2e]"
+                    className="text-[1.2rem] text-[#d4a558]"
                     style={{ fontFamily: "'Cormorant Garamond', serif" }}
                   >
-                    {p.price}
+                    $ 70.000
+                  </span>
+                  <span
+                    className="text-[0.6rem] tracking-[0.2em] uppercase px-4 py-2 border opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0"
+                    style={{ color: "#fdf6ec", borderColor: "rgba(253,246,236,0.4)", fontFamily: "'Jost', sans-serif" }}
+                  >
+                    Ver detalle →
                   </span>
                 </div>
               </div>
-            ))}
+            </a>
+
+            {/* Columna derecha — dos piezas apiladas */}
+            <div className="lg:col-span-5 flex flex-col gap-4">
+
+              {/* Pieza mediana arriba */}
+              <a
+                href="/tienda/2"
+                className="group relative overflow-hidden block flex-1"
+                style={{ minHeight: "250px" }}
+              >
+                <Image
+                  src="/images/Lamparas/Lampara02.jpg"
+                  alt="Lámpara de Madera"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div
+                  className="absolute inset-0 transition-opacity duration-300"
+                  style={{
+                    background: "linear-gradient(0deg, rgba(42,26,14,0.80) 0%, rgba(42,26,14,0.1) 50%, transparent 75%)",
+                  }}
+                />
+                <span
+                  className="absolute top-4 left-4 text-[0.58rem] tracking-[0.18em] uppercase px-3 py-1.5"
+                  style={{ background: "rgba(42,26,14,0.6)", color: "#d4a558", fontFamily: "'Jost', sans-serif", backdropFilter: "blur(4px)" }}
+                >
+                  Madera
+                </span>
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <h3
+                    className="font-light text-[1.4rem] leading-tight mb-1 text-[#fdf6ec]"
+                    style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                  >
+                    Lámpara de Madera
+                  </h3>
+                  <div className="flex items-center justify-between">
+                    <span
+                      className="text-[1rem] text-[#d4a558]"
+                      style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                    >
+                      $ 64.000
+                    </span>
+                    <span
+                      className="text-[0.6rem] tracking-[0.2em] uppercase px-3 py-1.5 border opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0"
+                      style={{ color: "#fdf6ec", borderColor: "rgba(253,246,236,0.4)", fontFamily: "'Jost', sans-serif" }}
+                    >
+                      Ver detalle →
+                    </span>
+                  </div>
+                </div>
+              </a>
+
+              {/* Pieza mediana abajo */}
+              <a
+                href="/tienda/3"
+                className="group relative overflow-hidden block flex-1"
+                style={{ minHeight: "250px" }}
+              >
+                <Image
+                  src="/images/Lamparas/Lampara03.jpg"
+                  alt="Lámpara de Macramé"
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+                <div
+                  className="absolute inset-0 transition-opacity duration-300"
+                  style={{
+                    background: "linear-gradient(0deg, rgba(42,26,14,0.80) 0%, rgba(42,26,14,0.1) 50%, transparent 75%)",
+                  }}
+                />
+                <span
+                  className="absolute top-4 left-4 text-[0.58rem] tracking-[0.18em] uppercase px-3 py-1.5"
+                  style={{ background: "rgba(42,26,14,0.6)", color: "#d4a558", fontFamily: "'Jost', sans-serif", backdropFilter: "blur(4px)" }}
+                >
+                  Macramé
+                </span>
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <h3
+                    className="font-light text-[1.4rem] leading-tight mb-1 text-[#fdf6ec]"
+                    style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                  >
+                    Lámpara de Macramé
+                  </h3>
+                  <div className="flex items-center justify-between">
+                    <span
+                      className="text-[1rem] text-[#d4a558]"
+                      style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                    >
+                      $ 58.000
+                    </span>
+                    <span
+                      className="text-[0.6rem] tracking-[0.2em] uppercase px-3 py-1.5 border opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0"
+                      style={{ color: "#fdf6ec", borderColor: "rgba(253,246,236,0.4)", fontFamily: "'Jost', sans-serif" }}
+                    >
+                      Ver detalle →
+                    </span>
+                  </div>
+                </div>
+              </a>
+
+            </div>
+
+            {/* Fila inferior — tres piezas iguales */}
+            <a
+              href="/tienda/4"
+              className="lg:col-span-4 group relative overflow-hidden block"
+              style={{ minHeight: "300px" }}
+            >
+              <Image
+                src="/images/Lamparas/Lampara01.jpg"
+                alt="Lámpara de Cerámica"
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div
+                className="absolute inset-0"
+                style={{ background: "linear-gradient(0deg, rgba(42,26,14,0.82) 0%, transparent 60%)" }}
+              />
+              <span
+                className="absolute top-4 left-4 text-[0.58rem] tracking-[0.18em] uppercase px-3 py-1.5"
+                style={{ background: "rgba(42,26,14,0.6)", color: "#d4a558", fontFamily: "'Jost', sans-serif", backdropFilter: "blur(4px)" }}
+              >
+                Cerámica
+              </span>
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                <h3
+                  className="font-light text-[1.3rem] mb-1 text-[#fdf6ec]"
+                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                >
+                  Lámpara de Cerámica
+                </h3>
+                <div className="flex items-center justify-between">
+                  <span className="text-[1rem] text-[#d4a558]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                    $ 80.000
+                  </span>
+                  <span
+                    className="text-[0.6rem] tracking-[0.2em] uppercase px-3 py-1.5 border opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    style={{ color: "#fdf6ec", borderColor: "rgba(253,246,236,0.4)", fontFamily: "'Jost', sans-serif" }}
+                  >
+                    Ver detalle →
+                  </span>
+                </div>
+              </div>
+            </a>
+
+            <a
+              href="/tienda/5"
+              className="lg:col-span-4 group relative overflow-hidden block"
+              style={{ minHeight: "300px" }}
+            >
+              <Image
+                src="/images/Lamparas/Lampara02.jpg"
+                alt="Lámpara Mimbre"
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div
+                className="absolute inset-0"
+                style={{ background: "linear-gradient(0deg, rgba(42,26,14,0.82) 0%, transparent 60%)" }}
+              />
+              <span
+                className="absolute top-4 left-4 text-[0.58rem] tracking-[0.18em] uppercase px-3 py-1.5"
+                style={{ background: "rgba(42,26,14,0.6)", color: "#d4a558", fontFamily: "'Jost', sans-serif", backdropFilter: "blur(4px)" }}
+              >
+                Mimbre
+              </span>
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                <h3
+                  className="font-light text-[1.3rem] mb-1 text-[#fdf6ec]"
+                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                >
+                  Lámpara de Mimbre
+                </h3>
+                <div className="flex items-center justify-between">
+                  <span className="text-[1rem] text-[#d4a558]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                    $ 67.000
+                  </span>
+                  <span
+                    className="text-[0.6rem] tracking-[0.2em] uppercase px-3 py-1.5 border opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    style={{ color: "#fdf6ec", borderColor: "rgba(253,246,236,0.4)", fontFamily: "'Jost', sans-serif" }}
+                  >
+                    Ver detalle →
+                  </span>
+                </div>
+              </div>
+            </a>
+
+            <a
+              href="/tienda/6"
+              className="lg:col-span-4 group relative overflow-hidden block"
+              style={{ minHeight: "300px" }}
+            >
+              <Image
+                src="/images/Lamparas/Lampara03.jpg"
+                alt="Lámpara Mosaico Turca"
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div
+                className="absolute inset-0"
+                style={{ background: "linear-gradient(0deg, rgba(42,26,14,0.82) 0%, transparent 60%)" }}
+              />
+              <span
+                className="absolute top-4 left-4 text-[0.58rem] tracking-[0.18em] uppercase px-3 py-1.5"
+                style={{ background: "rgba(42,26,14,0.6)", color: "#d4a558", fontFamily: "'Jost', sans-serif", backdropFilter: "blur(4px)" }}
+              >
+                Mosaico
+              </span>
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                <h3
+                  className="font-light text-[1.3rem] mb-1 text-[#fdf6ec]"
+                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                >
+                  Lámpara Mosaico Turca
+                </h3>
+                <div className="flex items-center justify-between">
+                  <span className="text-[1rem] text-[#d4a558]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                    $ 95.000
+                  </span>
+                  <span
+                    className="text-[0.6rem] tracking-[0.2em] uppercase px-3 py-1.5 border opacity-0 group-hover:opacity-100 transition-all duration-300"
+                    style={{ color: "#fdf6ec", borderColor: "rgba(253,246,236,0.4)", fontFamily: "'Jost', sans-serif" }}
+                  >
+                    Ver detalle →
+                  </span>
+                </div>
+              </div>
+            </a>
+
           </div>
 
+          {/* CTA ver todo */}
           <div className="text-center mt-12">
             <a
               href="/tienda"
@@ -236,6 +457,7 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ══ SPLIT — Artesanía con Luz ════════════════════════════ */}
       <section
         className="grid grid-cols-1 lg:grid-cols-2 min-h-[520px]"
         style={{ background: "#ede4d8" }}
@@ -260,23 +482,26 @@ export default function Home() {
             sin repetición.
           </p>
           <div className="flex flex-col gap-4 mb-8">
-            {[
-              { t: "Diseños Exclusivos",   d: "Creaciones originales hechas a mano." },
-              { t: "Ilumina tus Espacios", d: "Dale calidez y personalidad a tu hogar." },
-            ].map((item) => (
-              <div key={item.t} className="flex items-start gap-3">
-                <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-[#9b4c2e]" />
-                <div>
-                  <p
-                    className="text-[0.78rem] tracking-[0.1em] uppercase font-medium mb-0.5 text-[#2a1a0e]"
-                    style={{ fontFamily: "'Jost', sans-serif" }}
-                  >
-                    {item.t}
-                  </p>
-                  <p className="text-[0.8rem] leading-6 text-[#8a6850]">{item.d}</p>
-                </div>
+            <div className="flex items-start gap-3">
+              <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-[#9b4c2e]" />
+              <div>
+                <p className="text-[0.78rem] tracking-[0.1em] uppercase font-medium mb-0.5 text-[#2a1a0e]"
+                  style={{ fontFamily: "'Jost', sans-serif" }}>
+                  Diseños Exclusivos
+                </p>
+                <p className="text-[0.8rem] leading-6 text-[#8a6850]">Creaciones originales hechas a mano.</p>
               </div>
-            ))}
+            </div>
+            <div className="flex items-start gap-3">
+              <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0 bg-[#9b4c2e]" />
+              <div>
+                <p className="text-[0.78rem] tracking-[0.1em] uppercase font-medium mb-0.5 text-[#2a1a0e]"
+                  style={{ fontFamily: "'Jost', sans-serif" }}>
+                  Ilumina tus Espacios
+                </p>
+                <p className="text-[0.8rem] leading-6 text-[#8a6850]">Dale calidez y personalidad a tu hogar.</p>
+              </div>
+            </div>
           </div>
           <a
             href="/nosotros"
@@ -297,59 +522,6 @@ export default function Home() {
             className="absolute inset-0"
             style={{ background: "linear-gradient(90deg, rgba(237,228,216,0.3) 0%, transparent 40%)" }}
           />
-        </div>
-      </section>
-
-      <section className="py-24 px-6" style={{ background: "#f5efe6" }}>
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-14">
-            <p
-              className="text-[0.65rem] tracking-[0.3em] uppercase mb-3 text-[#a87830]"
-              style={{ fontFamily: "'Jost', sans-serif" }}
-            >
-              Opiniones
-            </p>
-            <h2
-              className="font-light text-[clamp(1.8rem,4vw,2.8rem)] mb-4 text-[#2a1a0e]"
-              style={{ fontFamily: "'Cormorant Garamond', serif" }}
-            >
-              Testimonios de Nuestros Clientes
-            </h2>
-            <div className="divider-ornament mb-4">
-              <span className="text-[#a87830]">✦</span>
-            </div>
-            <p className="text-[0.84rem] mt-2 tracking-wide text-[#8a6850]">
-              Lo que dicen sobre nuestras lámparas
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((t) => (
-              <div
-                key={t.name}
-                className="card-hover p-8 flex flex-col border"
-                style={{ background: "#faf6f1", borderColor: "rgba(107,62,40,0.15)" }}
-              >
-                <Stars />
-                <p
-                  className="text-[1.02rem] leading-7 mb-6 flex-1 text-[#8a6850] italic"
-                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
-                >
-                  "{t.text}"
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 bg-[#e4d9cc]">
-                    <Image src={t.avatar} alt={t.name} width={40} height={40} className="object-cover w-full h-full" />
-                  </div>
-                  <span
-                    className="text-[0.78rem] tracking-[0.1em] uppercase font-medium text-[#2a1a0e]"
-                    style={{ fontFamily: "'Jost', sans-serif" }}
-                  >
-                    {t.name}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 

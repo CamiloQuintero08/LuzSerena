@@ -1,51 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import CustomHeader from "../../components/layout/Header";
-import CustomFooter from "../../components/layout/Footer";
+import CustomFooter from "@/components/layout/Footer";
 
-/* ── Tipos ─────────────────────────────────────────────────── */
-type Category = "Todos" | "Mimbre" | "Cerámica" | "Madera" | "Macramé" | "Mosaico";
-
-interface Product {
+type Producto = {
   id: number;
-  name: string;
-  category: Exclude<Category, "Todos">;
-  img: string;
-  price: number;
-  tag?: string;
-  desc: string;
-}
-
-/* ── Datos ──────────────────────────────────────────────────── */
-const products: Product[] = [
-  { id: 1,  name: "Lámpara Mimbre Redonda",    category: "Mimbre",   img: "/images/Lamparas/Lampara01.jpg", price: 70000, tag: "Nuevo",      desc: "Tejido artesanal sobre estructura de hierro forjado." },
-  { id: 2,  name: "Lámpara de Madera Trípode", category: "Madera",   img: "/images/Lamparas/Lampara02.jpg", price: 64000,                    desc: "Torno en madera maciza con acabado natural." },
-  { id: 3,  name: "Lámpara de Macramé",        category: "Macramé",  img: "/images/Lamparas/Lampara03.jpg", price: 58000, tag: "Más vendido", desc: "Tejido en algodón crudo, nudo a nudo." },
-  { id: 4,  name: "Lámpara Cerámica Esmaltada",category: "Cerámica", img: "/images/Lamparas/Lampara01.jpg", price: 80000,                    desc: "Cerámica esmaltada a mano, cada pieza irrepetible." },
-  { id: 5,  name: "Lámpara Mosaico Turca",     category: "Mosaico",  img: "/images/Lamparas/Lampara01.jpg", price: 95000, tag: "Premium",    desc: "Vidrio artesanal en colores mediterráneos vibrantes." },
-  { id: 6,  name: "Lámpara Mimbre Colgante",   category: "Mimbre",   img: "/images/Lamparas/Lampara02.jpg", price: 67000,                    desc: "Mimbre natural trenzado, ideal para comedores." },
-  { id: 7,  name: "Lámpara Cerámica Rústica",  category: "Cerámica", img: "/images/Lamparas/Lampara03.jpg", price: 71000,                    desc: "Acabado rústico esmaltado en tonos tierra." },
-  { id: 8,  name: "Lámpara Madera Flotante",   category: "Madera",   img: "/images/Lamparas/Lampara01.jpg", price: 88000, tag: "Nuevo",      desc: "Diseño suspendido en madera de nogal lacada." },
-  { id: 9,  name: "Lámpara Macramé Grande",    category: "Macramé",  img: "/images/Lamparas/Lampara01.jpg", price: 72000,                    desc: "Formato XL para espacios amplios y techos altos." },
-  { id: 10, name: "Lámpara Mosaico Oval",      category: "Mosaico",  img: "/images/Lamparas/Lampara02.jpg", price: 89000,                    desc: "Forma oval única con vidrios de colores cálidos." },
-  { id: 11, name: "Lámpara Mimbre Plana",      category: "Mimbre",   img: "/images/Lamparas/Lampara03.jpg", price: 61000,                    desc: "Diseño plano y moderno en mimbre natural." },
-  { id: 12, name: "Lámpara Cerámica Blanca",   category: "Cerámica", img: "/images/Lamparas/Lampara01.jpg", price: 69000,                    desc: "Porcelana blanca mate con relieves florales." },
-];
-
-const categories: Category[] = ["Todos", "Mimbre", "Cerámica", "Madera", "Macramé", "Mosaico"];
+  nombre: string;
+  descripcion: string;
+  precio: number;
+  categoria: string;
+  imagenes: string[];
+  tag: string | null;
+  stock: number;
+};
 
 const sortOptions = [
-  { label: "Destacados",      value: "default" },
-  { label: "Menor precio",    value: "asc" },
-  { label: "Mayor precio",    value: "desc" },
-  { label: "Nombre A–Z",      value: "az" },
+  { label: "Destacados",   value: "default" },
+  { label: "Menor precio", value: "asc" },
+  { label: "Mayor precio", value: "desc" },
+  { label: "Nombre A–Z",   value: "az" },
 ];
 
 function formatPrice(n: number) {
   return "$ " + n.toLocaleString("es-CO");
 }
+
 function CartIcon() {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none"
@@ -55,24 +36,43 @@ function CartIcon() {
     </svg>
   );
 }
+
 export default function Tienda() {
-  const [activeCategory, setActiveCategory] = useState<Category>("Todos");
+  const [productos, setProductos] = useState<Producto[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState("Todos");
   const [sortBy, setSortBy] = useState("default");
   const [wishlist, setWishlist] = useState<number[]>([]);
   const [addedToCart, setAddedToCart] = useState<number | null>(null);
 
-  /* Filtrar y ordenar */
-  const filtered = products
-    .filter((p) => activeCategory === "Todos" || p.category === activeCategory)
+  useEffect(() => {
+    fetch("/api/productos")
+      .then((res) => res.json())
+      .then((data) => {
+        setProductos(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  const categories = [
+    "Todos",
+    ...Array.from(new Set(productos.map((p) => p.categoria))),
+  ];
+
+  const filtered = productos
+    .filter((p) => activeCategory === "Todos" || p.categoria === activeCategory)
     .sort((a, b) => {
-      if (sortBy === "asc")  return a.price - b.price;
-      if (sortBy === "desc") return b.price - a.price;
-      if (sortBy === "az")   return a.name.localeCompare(b.name);
+      if (sortBy === "asc")  return a.precio - b.precio;
+      if (sortBy === "desc") return b.precio - a.precio;
+      if (sortBy === "az")   return a.nombre.localeCompare(b.nombre);
       return a.id - b.id;
     });
 
   const toggleWishlist = (id: number) =>
-    setWishlist((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
+    setWishlist((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
 
   const handleAddToCart = (id: number) => {
     setAddedToCart(id);
@@ -84,24 +84,20 @@ export default function Tienda() {
       <CustomHeader />
 
       <section className="relative h-[55vh] min-h-[380px] flex items-center justify-center overflow-hidden">
-
         <Image
-          src="/images/backgroundProducts.png"
+          src="/images/hero-tienda.jpg"
           alt="Colección de lámparas artesanales"
           fill priority
           className="object-cover object-center"
           style={{ zIndex: 0 }}
         />
-
         <div
           className="absolute inset-0"
           style={{
             zIndex: 1,
-            background:
-              "linear-gradient(180deg, rgba(42,26,14,0.55) 0%, rgba(42,26,14,0.65) 55%, rgba(245,239,230,1) 100%)",
+            background: "linear-gradient(180deg, rgba(42,26,14,0.55) 0%, rgba(42,26,14,0.65) 55%, rgba(245,239,230,1) 100%)",
           }}
         />
-
         <div className="relative z-10 text-center px-6 pb-10">
           <p
             className="text-[0.65rem] tracking-[0.38em] uppercase mb-4"
@@ -124,13 +120,12 @@ export default function Tienda() {
             <span style={{ color: "#d4a558" }}>✦</span>
           </div>
           <p
-            className="text-[0.88rem] text-amber-950 tracking-wide max-w-md mx-auto"
-            style={{
-              fontFamily: "'Jost', sans-serif",
-              fontWeight: 300,
-            }}
+            className="text-[0.88rem] tracking-wide max-w-md mx-auto"
+            style={{ color: "rgba(253,246,236,0.75)", fontFamily: "'Jost', sans-serif", fontWeight: 300 }}
           >
-            {products.length} piezas únicas · Hechas a mano · Envío a todo el país
+            {loading
+              ? "Cargando colección..."
+              : `${productos.length} piezas únicas · Hechas a mano · Envío a todo el país`}
           </p>
         </div>
       </section>
@@ -144,13 +139,12 @@ export default function Tienda() {
         }}
       >
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-
           <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className="px-4 py-1.5 text-[0.68rem] tracking-[0.15em] uppercase transition-all duration-250"
+                className="px-4 py-1.5 text-[0.68rem] tracking-[0.15em] uppercase transition-all duration-200"
                 style={{
                   fontFamily: "'Jost', sans-serif",
                   background: activeCategory === cat ? "#9b4c2e" : "transparent",
@@ -162,12 +156,9 @@ export default function Tienda() {
               </button>
             ))}
           </div>
-
           <div className="flex items-center gap-4">
-            <span
-              className="text-[0.72rem] text-[#b09070]"
-              style={{ fontFamily: "'Jost', sans-serif" }}
-            >
+            <span className="text-[0.72rem] text-[#b09070]"
+              style={{ fontFamily: "'Jost', sans-serif" }}>
               {filtered.length} {filtered.length === 1 ? "pieza" : "piezas"}
             </span>
             <select
@@ -190,12 +181,25 @@ export default function Tienda() {
       </section>
 
       <section className="max-w-6xl mx-auto px-6 py-16">
-        {filtered.length === 0 ? (
+        {loading ? (
+          /* Skeleton */
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="border animate-pulse"
+                style={{ background: "#faf6f1", borderColor: "rgba(107,62,40,0.13)" }}>
+                <div className="h-64" style={{ background: "#e4d9cc" }} />
+                <div className="p-5 flex flex-col gap-3">
+                  <div className="h-3 rounded" style={{ background: "#e4d9cc", width: "40%" }} />
+                  <div className="h-4 rounded" style={{ background: "#e4d9cc", width: "80%" }} />
+                  <div className="h-3 rounded" style={{ background: "#e4d9cc", width: "65%" }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
           <div className="text-center py-32">
-            <p
-              className="text-[2rem] font-light mb-3 text-[#c4b09a]"
-              style={{ fontFamily: "'Cormorant Garamond', serif" }}
-            >
+            <p className="text-[2rem] font-light mb-3 text-[#c4b09a]"
+              style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Sin resultados
             </p>
             <p className="text-[0.82rem] text-[#b09070]">
@@ -212,11 +216,9 @@ export default function Tienda() {
               >
                 <div className="relative h-64 overflow-hidden">
                   <Image
-                    src={p.img} alt={p.name} fill
+                    src={p.imagenes[0]} alt={p.nombre} fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
-
-                  {/* Tag */}
                   {p.tag && (
                     <span
                       className="absolute top-3 left-3 text-[0.58rem] tracking-[0.15em] uppercase px-2.5 py-1 font-medium"
@@ -229,17 +231,13 @@ export default function Tienda() {
                       {p.tag}
                     </span>
                   )}
-
                   <button
                     onClick={() => toggleWishlist(p.id)}
                     className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center transition-all duration-200 opacity-0 group-hover:opacity-100"
-                    style={{
-                      background: "rgba(245,239,230,0.92)",
-                      backdropFilter: "blur(4px)",
-                    }}
+                    style={{ background: "rgba(245,239,230,0.92)", backdropFilter: "blur(4px)" }}
                     aria-label="Guardar"
                   >
-                    <svg className="w-4 h-4 transition-colors duration-200" viewBox="0 0 24 24"
+                    <svg className="w-4 h-4" viewBox="0 0 24 24"
                       fill={wishlist.includes(p.id) ? "#9b4c2e" : "none"}
                       stroke={wishlist.includes(p.id) ? "#9b4c2e" : "#8a6850"}
                       strokeWidth={1.5}>
@@ -247,14 +245,13 @@ export default function Tienda() {
                         d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                     </svg>
                   </button>
-
                   <div
                     className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4"
                     style={{ background: "linear-gradient(0deg, rgba(42,26,14,0.55) 0%, transparent 55%)" }}
                   >
                     <a
                       href={`/tienda/${p.id}`}
-                      className="text-[0.6rem] tracking-[0.18em] uppercase py-1.5 px-4 border transition-colors duration-200 hover:bg-white/10"
+                      className="text-[0.6rem] tracking-[0.18em] uppercase py-1.5 px-4 border"
                       style={{ color: "#fdf6ec", borderColor: "rgba(253,246,236,0.45)", fontFamily: "'Jost', sans-serif" }}
                     >
                       Ver detalle
@@ -263,34 +260,23 @@ export default function Tienda() {
                 </div>
 
                 <div className="p-5 flex flex-col flex-1">
-                  <span
-                    className="text-[0.58rem] tracking-[0.2em] uppercase mb-1.5 text-[#a87830]"
-                    style={{ fontFamily: "'Jost', sans-serif" }}
-                  >
-                    {p.category}
+                  <span className="text-[0.58rem] tracking-[0.2em] uppercase mb-1.5 text-[#a87830]"
+                    style={{ fontFamily: "'Jost', sans-serif" }}>
+                    {p.categoria}
                   </span>
-
-                  <h3
-                    className="font-light text-[1.05rem] mb-1.5 text-[#2a1a0e] leading-snug"
-                    style={{ fontFamily: "'Cormorant Garamond', serif" }}
-                  >
-                    {p.name}
+                  <h3 className="font-light text-[1.05rem] mb-1.5 text-[#2a1a0e] leading-snug"
+                    style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                    {p.nombre}
                   </h3>
-
-                  <p className="text-[0.76rem] leading-6 text-[#8a6850] mb-4 flex-1">
-                    {p.desc}
+                  <p className="text-[0.76rem] leading-6 text-[#8a6850] mb-4 flex-1 line-clamp-2">
+                    {p.descripcion}
                   </p>
-
                   <div className="flex items-center justify-between mt-auto pt-4"
-                    style={{ borderTop: "1px solid rgba(107,62,40,0.1)" }}
-                  >
-                    <span
-                      className="text-[1.05rem] tracking-wide text-[#9b4c2e]"
-                      style={{ fontFamily: "'Cormorant Garamond', serif" }}
-                    >
-                      {formatPrice(p.price)}
+                    style={{ borderTop: "1px solid rgba(107,62,40,0.1)" }}>
+                    <span className="text-[1.05rem] tracking-wide text-[#9b4c2e]"
+                      style={{ fontFamily: "'Cormorant Garamond', serif" }}>
+                      {formatPrice(p.precio)}
                     </span>
-
                     <button
                       onClick={() => handleAddToCart(p.id)}
                       className="flex items-center gap-2 px-3 py-2 text-[0.62rem] tracking-[0.15em] uppercase transition-all duration-250"
@@ -325,41 +311,29 @@ export default function Tienda() {
 
       <section
         className="mx-6 mb-20 px-10 py-16 text-center"
-        style={{
-          background: "linear-gradient(135deg, #4a2e1e 0%, #6b3e28 100%)",
-          borderTop: "1px solid rgba(168,120,48,0.2)",
-        }}
+        style={{ background: "linear-gradient(135deg, #4a2e1e 0%, #6b3e28 100%)" }}
       >
-        <p
-          className="text-[0.65rem] tracking-[0.3em] uppercase mb-3 text-[#a87830]"
-          style={{ fontFamily: "'Jost', sans-serif" }}
-        >
+        <p className="text-[0.65rem] tracking-[0.3em] uppercase mb-3 text-[#a87830]"
+          style={{ fontFamily: "'Jost', sans-serif" }}>
           ¿No encuentras lo que buscas?
         </p>
-        <h2
-          className="font-light text-[clamp(1.8rem,4vw,3rem)] mb-4 text-[#fdf6ec]"
-          style={{ fontFamily: "'Cormorant Garamond', serif" }}
-        >
+        <h2 className="font-light text-[clamp(1.8rem,4vw,3rem)] mb-4 text-[#fdf6ec]"
+          style={{ fontFamily: "'Cormorant Garamond', serif" }}>
           Creamos tu lámpara a{" "}
           <em style={{ color: "#d4a558", fontStyle: "italic" }}>medida</em>
         </h2>
-        <p
-          className="text-[0.84rem] mb-8 text-[rgba(253,246,236,0.65)] max-w-sm mx-auto leading-7"
-          style={{ fontFamily: "'Jost', sans-serif", fontWeight: 300 }}
-        >
-          Cuéntanos tu idea y nuestros artesanos la harán realidad, pieza única, solo para ti.
+        <p className="text-[0.84rem] mb-8 max-w-sm mx-auto leading-7"
+          style={{ color: "rgba(253,246,236,0.65)", fontFamily: "'Jost', sans-serif", fontWeight: 300 }}>
+          Cuéntanos tu idea y nuestros artesanos la harán realidad.
         </p>
-        <a
-          href="/contacto"
+        <a href="/contacto"
           className="btn-terra inline-block px-10 py-3.5 text-[0.72rem] tracking-[0.22em] uppercase font-medium"
-          style={{ fontFamily: "'Jost', sans-serif", background: "#a87830" }}
-        >
+          style={{ fontFamily: "'Jost', sans-serif", background: "#a87830" }}>
           Solicitar pedido personalizado
         </a>
       </section>
 
       <CustomFooter />
-
     </div>
   );
 }
